@@ -1,232 +1,59 @@
 import React from "react";
-import { SafeAreaView, View, ScrollView, Text, } from "react-native";
-export default (props:any) => {
-	return (
-		<SafeAreaView 
-			style={{
-				flex: 1,
-				backgroundColor: "#FFFFFF",
-			}}>
-			<ScrollView  
-				style={{
-					flex: 1,
-					backgroundColor: "#FFFFFF",
-					paddingVertical: 28,
-					paddingRight: 19,
-				}}>
-				<Text 
-					style={{
-						color: "#000000",
-						fontSize: 24,
-						marginBottom: 89,
-					}}>
-					{"복작복작"}
-				</Text>
-				<View >
-					<View 
-						style={{
-							paddingRight: 10,
-							marginBottom: 56,
-						}}>
-						<Text 
-							style={{
-								color: "#000000",
-								fontSize: 20,
-								marginBottom: 27,
-								marginLeft: 10,
-							}}>
-							{"참여중인 모임"}
-						</Text>
-						<View 
-							style={{
-								paddingBottom: 7,
-								paddingLeft: 39,
-								marginLeft: 10,
-							}}>
-							<View 
-								style={{
-									backgroundColor: "#D9D9D9",
-									borderRadius: 10,
-									paddingVertical: 14,
-									marginBottom: 12,
-								}}>
-								<Text 
-									style={{
-										color: "#000000",
-										fontSize: 20,
-										marginBottom: 14,
-										marginLeft: 18,
-									}}>
-									{"모임명"}
-								</Text>
-								<View 
-									style={{
-										alignSelf: "flex-start",
-										flexDirection: "row",
-										marginLeft: 20,
-									}}>
-									<Text 
-										style={{
-											color: "#000000",
-											fontSize: 14,
-											marginRight: 17,
-										}}>
-										{"5인"}
-									</Text>
-									<Text 
-										style={{
-											color: "#000000",
-											fontSize: 14,
-										}}>
-										{"김한슬 똥 김지민 권내원 김다연"}
-									</Text>
-								</View>
-							</View>
-							<View 
-								style={{
-									height: 73,
-									backgroundColor: "#D9D9D9",
-									borderRadius: 10,
-									marginBottom: 21,
-								}}>
-							</View>
-							<View 
-								style={{
-									height: 73,
-									backgroundColor: "#D9D9D9",
-									borderRadius: 10,
-								}}>
-							</View>
-						</View>
-					</View>
-					<View 
-						style={{
-							paddingHorizontal: 16,
-						}}>
-						<View 
-							style={{
-								marginBottom: 131,
-							}}>
-							<View 
-								style={{
-									alignItems: "center",
-									backgroundColor: "#D9D9D9",
-									paddingVertical: 23,
-									marginBottom: 19,
-								}}>
-								<Text 
-									style={{
-										color: "#000000",
-										fontSize: 20,
-										marginBottom: 19,
-									}}>
-									{"모임 참여하기"}
-								</Text>
-								<View 
-									style={{
-										flexDirection: "row",
-										alignItems: "center",
-										paddingHorizontal: 3,
-										marginHorizontal: 15,
-									}}>
-									<Text 
-										style={{
-											color: "#000000",
-											fontSize: 15,
-											marginRight: 17,
-										}}>
-										{"그룹 코드 입력"}
-									</Text>
-									<View 
-										style={{
-											height: 22,
-											flex: 1,
-											backgroundColor: "#FFFFFF",
-										}}>
-									</View>
-								</View>
-							</View>
-							<View 
-								style={{
-									flexDirection: "row",
-									justifyContent: "space-between",
-									backgroundColor: "#D9D9D9",
-									paddingVertical: 14,
-									paddingHorizontal: 12,
-								}}>
-								<Text 
-									style={{
-										color: "#000000",
-										fontSize: 20,
-									}}>
-									{"모임 생성하기"}
-								</Text>
-								<Text 
-									style={{
-										color: "#000000",
-										fontSize: 20,
-									}}>
-									{"+"}
-								</Text>
-							</View>
-						</View>
-						<View >
-							<View 
-								style={{
-									height: 1,
-									backgroundColor: "#000000",
-									marginBottom: 22,
-								}}>
-							</View>
-							<View 
-								style={{
-									flexDirection: "row",
-									marginHorizontal: 2,
-								}}>
-								<Text 
-									style={{
-										color: "#000000",
-										fontSize: 16,
-									}}>
-									{"홈   "}
-								</Text>
-								<View 
-									style={{
-										flex: 1,
-									}}>
-								</View>
-								<Text 
-									style={{
-										color: "#000000",
-										fontSize: 16,
-									}}>
-									{"내 서재"}
-								</Text>
-								<View 
-									style={{
-										flex: 1,
-									}}>
-								</View>
-								<Text 
-									style={{
-										color: "#486240",
-										fontSize: 16,
-										marginRight: 48,
-									}}>
-									{"독서 모임"}
-								</Text>
-								<Text 
-									style={{
-										color: "#000000",
-										fontSize: 16,
-									}}>
-									{"마이"}
-								</Text>
-							</View>
-						</View>
-					</View>
-				</View>
-			</ScrollView>
-		</SafeAreaView>
-	)
+import { ScrollView, View, Text, TextInput, TouchableOpacity } from "react-native";
+import MainLayout from "../../layouts/MainLayout";
+import GroupCard from "../../components/group/GroupCard";
+
+export default function GroupMainScreen() {
+  return (
+    <MainLayout>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingVertical: 28, paddingHorizontal: 20 }}>
+        {/* 상단 로고 */}
+        <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 30 }}>복작복작</Text>
+
+        {/* 참여중인 모임 섹션 */}
+        <View style={{ marginBottom: 40 }}>
+          <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 20 }}>참여중인 모임</Text>
+          <GroupCard 
+            name="모임명" 
+            description="교환독서 조지기! 규칙 : 어쩌고 저쩌고 못 읽으면 빙수사기 화이팅~" 
+            members="김한슬, 똥, 김지민, 권내원, 김다연" 
+          />
+          {/* 다른 모임이 있다면 여기에 추가 */}
+        </View>
+
+        {/* 모임 참여하기 섹션 */}
+        <View style={{ 
+          backgroundColor: "#D9D9D9", 
+          padding: 20, 
+          borderRadius: 10, 
+          marginBottom: 20, 
+          alignItems: "center" 
+        }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 15 }}>모임 참여하기</Text>
+          <View style={{ flexDirection: "row", alignItems: "center", width: "100%" }}>
+            <Text style={{ fontSize: 14, marginRight: 10 }}>그룹 코드 입력</Text>
+            <TextInput 
+              style={{ flex: 1, backgroundColor: "#FFF", height: 30, paddingHorizontal: 10 }}
+              placeholder="코드를 입력하세요"
+            />
+          </View>
+        </View>
+
+        {/* 모임 생성하기 버튼 */}
+        <TouchableOpacity 
+          style={{ 
+            flexDirection: "row", 
+            justifyContent: "space-between", 
+            backgroundColor: "#D9D9D9", 
+            padding: 15, 
+            borderRadius: 10,
+            alignItems: "center"
+          }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>모임 생성하기</Text>
+          <Text style={{ fontSize: 24 }}>+</Text>
+        </TouchableOpacity>
+
+      </ScrollView>
+    </MainLayout>
+  );
 }
