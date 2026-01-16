@@ -1,7 +1,18 @@
 import React from 'react';
-// 만약 index.tsx 파일이 src/screens에 있다면 아래 경로를 사용하세요.
+
+
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 import HomeScreen from './src/screens/HomeScreen';
+import MyPageScreen from './src/screens/MyPageScreen';
+import BooksearchScreen from './src/screens/BooksearchSceen';
+import LoginScreen from './src/screens/LoginScreen';
+import SignUPScreen from './src/screens/SignUpScreen';
 
 export default function App() {
-  return <HomeScreen />;
+  return (
+    <SafeAreaProvider>
+      <SignUPScreen />
+    </SafeAreaProvider>
+  );
 }
