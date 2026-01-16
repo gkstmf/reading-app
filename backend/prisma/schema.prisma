@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           Int      @id @default(autoincrement()) // user_id
+  email        String   @unique                      // 로그인용 이메일
+  password     String                                // 암호화된 비밀번호
+  nickname     String
+  profileImage String?                               // profile_image, null허용
+  createdAt    DateTime @default(now())              // created_at
+
+  // 관계 설정
+  readingStatuses ReadingStatus[]
+  reviews         Review[]
+  groupMembers    GroupMember[]
+}
+
+model Book {
+  id          Int      @id @default(autoincrement()) // book_id
+  isbn        String   @unique                      // 도서 고유 번호
+  title       String
+  author      String
+  publisher   String?
+  description String?  @db.Text                     // 책 줄거리 및 요약
+  coverImage  String?                               // cover_image
+
+  readingStatuses ReadingStatus[]
+  reviews         Review[]
+  groupWishes     GroupWish[]
+}
+
+model ReadingStatus {
+  id        Int      @id @default(autoincrement())   // status_id
+  status    String                                   // WISH, READING, FINISHED
+  startDate DateTime?                                // start_date (임시)
+  endDate   DateTime?                                // end_date (월별 통계 기준) (임시)
+  
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  bookId    Int
+  book      Book     @relation(fields: [bookId], references: [id])
+
+  @@unique([userId, bookId]) // 한 사용자가 한 권의 책에 대해 가지는 상태
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())   // review_id
+  content   String   @db.Text
+  rating    Decimal  @db.Decimal(2, 1)               // 1.0~5.0 평점
+  createdAt DateTime @default(now())                 // created_at
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  bookId    Int
+  book      Book     @relation(fields: [bookId], references: [id])
+}
+
+model Group {
+  id          Int      @id @default(autoincrement()) // group_id
+  name        String                                // group_name
+  color       String   @default("#FFFFFF")          // group_color (HEX 코드 등)
+  description String?  @db.Text
+  inviteCode  String   @unique                      // invite_code
+  createdAt   DateTime @default(now())              // created_at
+
+  members     GroupMember[]
+  groupWishes GroupWish[]
+}
+
+model GroupMember {
+  id               Int      @id @default(autoincrement()) // member_id
+  role             String   @default("MEMBER")            // OWNER, MEMBER
+  joinedAt         DateTime @default(now())               // joined_at
+  participantCount Int                                    // participant_count
+
+  groupId  Int
+  group    Group    @relation(fields: [groupId], references: [id])
+  userId   Int
+  user     User     @relation(fields: [userId], references: [id])
+
+  @@unique([groupId, userId])
+}
+
+model GroupWish {
+  id        Int      @id @default(autoincrement())        // group_wish_id
+  createdAt DateTime @default(now())                      // created_at
+
+  groupId   Int
+  group     Group    @relation(fields: [groupId], references: [id])
+  bookId    Int
+  book      Book     @relation(fields: [bookId], references: [id])
+
+  @@unique([groupId, bookId])
+}
