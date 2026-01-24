@@ -1,6 +1,6 @@
 import { prisma } from "../../config/prisma";
 
-// 사용자 정보 조회 서비스
+// 사용자 정보 조회 (GET)
 export const getUserProfile = async (userId: number) => {
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -8,7 +8,7 @@ export const getUserProfile = async (userId: number) => {
       id: true,
       email: true,
       nickname: true,
-      profileImage: true, // DB 필드명에 맞춰 수정하세요
+      profileImage: true,
       createdAt: true,
     },
   });
@@ -17,7 +17,7 @@ export const getUserProfile = async (userId: number) => {
   return user;
 };
 
-// 사용자 정보 수정 서비스
+// 사용자 정보 수정 (PUT)
 export const updateUserProfile = async (userId: number, nickname?: string, profileImage?: string) => {
   // 정보가 있을 때만 업데이트 데이터에 포함
   const updateData: any = {};
@@ -32,7 +32,7 @@ export const updateUserProfile = async (userId: number, nickname?: string, profi
   return updatedUser;
 };
 
-// 회원 탈퇴 서비스
+// 회원 탈퇴 (DELETE)
 export const deleteUser = async (userId: number) => {
   await prisma.user.delete({
     where: { id: userId },
