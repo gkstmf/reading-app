@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity, ActivityIndicator } from "react-native";
-// axios import는 삭제했습니다.
 import MainLayout from "../../layouts/MainLayout";
 import LibraryBookItem from "../../components/library/LibraryBookItem";
 
@@ -35,15 +34,14 @@ export default function LibraryDetailScreen({ type = "wish" }: LibraryDetailProp
     const fetchUserBooks = async () => {
       try {
         setLoading(true);
-        // fetch는 axios와 달리 결과를 한 번 더 .json()으로 변환해줘야 합니다.
-        const response = await fetch(`http://172.20.10.2:3000/user-books?status=${status}`);
+        const response = await fetch(`http://172.30.1.84:3000/user-books?status=${status}`);
         
         if (!response.ok) {
           throw new Error('네트워크 응답이 좋지 않습니다.');
         }
 
         const data = await response.json();
-        setBooks(data.books); // 백엔드 결과물인 { books: [...] } 에서 배열만 추출
+        setBooks(data.books); 
       } catch (err) {
         console.error("데이터를 가져오는데 실패했습니다:", err);
       } finally {

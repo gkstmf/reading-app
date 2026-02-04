@@ -22,7 +22,7 @@ export default function App() {
       <MylibraryScreen />
 
       {/*라이브러리 상태별 화면전환 테스트 코드 - wish, reading, finished*/}
-      {/*<LibraryDetailScreen type="wish" />*/}
+      {/*<LibraryDetailScreen type="reading"/>*/}
 
       {/* 책 디테일화면 조회용 테스트 코드 - search, reading, finished*/}
       {/*<BookDetailScreen status="finished" />*/}

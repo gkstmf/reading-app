@@ -3,21 +3,32 @@ import { View, Text, Image } from "react-native";
 
 interface LibraryBookItemProps {
   title: string;
-  coverImage?: string; // 👈 1. 타입을 추가해서 에러 해결 (있을수도 없을수도 있으니 ?)
+  coverImage?: string; 
 }
 
 export default function LibraryBookItem({ title, coverImage }: LibraryBookItemProps) {
   return (
     <View style={{ flex: 1, marginRight: 20 }}>
-      {/* 2. 조건부 렌더링: 이미지가 있으면 Image, 없으면 회색 View */}
+      {/* 조건부 렌더링: 이미지가 있으면 Image, 없으면 회색 View */}
       {coverImage ? (
         <Image 
           source={{ uri: coverImage }} 
-          style={{ height: 95, borderRadius: 4, marginBottom: 15 }} 
+          style={{ 
+            width: '100%', 
+            aspectRatio: 3 / 4,
+            borderRadius: 4, 
+            marginBottom: 10 
+          }}
           resizeMode="cover"
         />
       ) : (
-        <View style={{ height: 95, backgroundColor: "#D9D9D9", marginBottom: 15 }} />
+        <View style={{ 
+          width: '100%', 
+          aspectRatio: 3 / 4, 
+          backgroundColor: "#D9D9D9", 
+          borderRadius: 4, 
+          marginBottom: 10 
+        }} />
       )}
 
       {/* 책 제목 */}

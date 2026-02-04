@@ -1,4 +1,3 @@
-// LibrarySection.tsx
 import React from "react";
 import { View, Text, Image } from "react-native";
 import LibraryBookItem from "./LibraryBookItem";
@@ -14,8 +13,12 @@ export default function LibrarySection({
   iconUri,
   books,
 }: LibrarySectionProps) {
+
+  // 책 세 칸으로 고정
+  const displayItems = [0, 1, 2]; 
+
   return (
-    <View style={{ marginBottom: 40 }}>
+    <View style={{ marginBottom: 20 }}>
       <View
         style={{
           flexDirection: "row",
@@ -30,14 +33,18 @@ export default function LibrarySection({
 
       <View style={{ height: 1, backgroundColor: "#000", marginBottom: 13 }} />
 
-      <View style={{ flexDirection: "row" }}>
-        {books.slice(0, 3).map((book, index) => (
-          <LibraryBookItem
-            key={book.bookId ?? index}
-            title={book.title}
-            coverImage={book.coverImage}
-          />
-        ))}
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        {displayItems.map((_, index) => {
+          const book = books[index]; // 데이터가 있으면 해당 책, 없으면 undefined
+
+          return (
+            <LibraryBookItem
+              key={book?.bookId ?? `empty-${index}`}
+              title={book?.title}       // 데이터 없으면 undefined 전달
+              coverImage={book?.coverImage} // 데이터 없으면 undefined 전달
+            />
+          );
+        })}
       </View>
     </View>
   );
