@@ -33,3 +33,37 @@ export const updateStatus = async (req: Request, res: Response) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+// 내 서재 목록 조회
+export const getUserBooks = async (req: Request, res: Response) => {
+  try {
+    const userId = 1; // 임시 ID (추후 req.user.id로 교체)
+    const { status } = req.query; // 쿼리 스트링에서 status 추출
+
+    // 서비스에서 필터링 로직 처리 (status가 없으면 전체 조회)
+    const books = await userBookService.getUserBooks(userId, status as string);
+    
+    res.status(200).json({ books });
+  } catch (err: any) {
+    res.status(500).json({ error: "서재 목록을 불러오는 중 오류가 발생했습니다." });
+  }
+};
+
+
+// 내 서재 책 삭제
+export const deleteUserBook = async (req: Request, res: Response) => {
+  try {
+    const { userBookId } = req.params;
+
+    if (!userBookId) {
+      return res.status(400).json({ error: "삭제할 도서 ID가 필요합니다." });
+    }
+
+    await userBookService.deleteUserBook(Number(userBookId));
+    
+    // 204 No Content는 본문을 반환하지 않습니다.
+    res.status(204).send();
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+};

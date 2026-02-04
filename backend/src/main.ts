@@ -1,14 +1,18 @@
 import express from "express";
-import authRoute from "./modules/auth/auth.route"; // ← 여기
+import cors from "cors";
+import authRoute from "./modules/auth/auth.route";
 import userRoute from "./modules/user/user.route";
 import userBooksRoute from "./modules/user-books/user-books.route";
 
-const app = express();
+const app = express(); // 익스프레스 앱 생성
+app.use(cors()); 
 app.use(express.json());
 
 // 경로 연결
-app.use("/auth", authRoute); // POST /auth/signup
-app.use("/user", userRoute); // GET /user/me
-app.use("/user-books", userBooksRoute); // POST /user-books
+app.use("/auth", authRoute);
+app.use("/user", userRoute);
+app.use("/user-books", userBooksRoute);
 
-app.listen(3000, () => console.log("🚀 Server running on port 3000"));
+app.listen(3000, "0.0.0.0", () => {
+  console.log("🚀 서버 실행 중...");
+});
