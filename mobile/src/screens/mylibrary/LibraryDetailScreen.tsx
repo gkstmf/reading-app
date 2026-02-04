@@ -1,5 +1,6 @@
-import React from "react";
-import { ScrollView, View, Text, Image, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, View, Text, Image, TouchableOpacity, ActivityIndicator } from "react-native";
+// axios import는 삭제했습니다.
 import MainLayout from "../../layouts/MainLayout";
 import LibraryBookItem from "../../components/library/LibraryBookItem";
 
@@ -7,24 +8,51 @@ interface LibraryDetailProps {
   type: "wish" | "reading" | "finished";
 }
 
-// 타입에 따른 텍스트와 아이콘 설정
 const CONFIG = {
   wish: {
     title: "독서 위시리스트",
     icon: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/uudb80hvHm/m6sfpnu2_expires_30_days.png",
+    status: "WISH",
   },
   reading: {
     title: "독서 중",
     icon: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/uudb80hvHm/hnoaf56r_expires_30_days.png",
+    status: "READING",
   },
   finished: {
     title: "독서 완료",
     icon: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/uudb80hvHm/3jx43qvj_expires_30_days.png",
+    status: "FINISHED",
   },
 };
 
 export default function LibraryDetailScreen({ type = "wish" }: LibraryDetailProps) {
-  const { title, icon } = CONFIG[type];
+  const { title, icon, status } = CONFIG[type];
+  const [books, setBooks] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserBooks = async () => {
+      try {
+        setLoading(true);
+        // fetch는 axios와 달리 결과를 한 번 더 .json()으로 변환해줘야 합니다.
+        const response = await fetch(`http://172.20.10.2:3000/user-books?status=${status}`);
+        
+        if (!response.ok) {
+          throw new Error('네트워크 응답이 좋지 않습니다.');
+        }
+
+        const data = await response.json();
+        setBooks(data.books); // 백엔드 결과물인 { books: [...] } 에서 배열만 추출
+      } catch (err) {
+        console.error("데이터를 가져오는데 실패했습니다:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserBooks();
+  }, [type]);
 
   return (
     <MainLayout>
@@ -45,20 +73,32 @@ export default function LibraryDetailScreen({ type = "wish" }: LibraryDetailProp
           </TouchableOpacity>
         </View>
 
-        {/* 책 리스트 그리드 (3열 구조) */}
-        <View style={{ paddingHorizontal: 10 }}>
-          <View style={{ flexDirection: "row", marginBottom: 30 }}>
-            <LibraryBookItem title="책 제목어쩌고" />
-            <LibraryBookItem title="책 제목어쩌고" />
-            <LibraryBookItem title="책 제목어쩌고" />
+        {/* 책 리스트 그리드 */}
+        {loading ? (
+          <ActivityIndicator size="large" color="#000" />
+        ) : (
+          <View style={{ 
+            flexDirection: "row", 
+            flexWrap: "wrap", 
+            justifyContent: "flex-start",
+            paddingHorizontal: 10 
+          }}>
+            {books.length > 0 ? (
+              books.map((book) => (
+                <View key={book.bookId} style={{ width: '33.3%', marginBottom: 20 }}>
+                  <LibraryBookItem 
+                    title={book.title} 
+                    coverImage={book.coverImage} 
+                  />
+                </View>
+              ))
+            ) : (
+              <Text style={{ textAlign: 'center', width: '100%', marginTop: 20, color: '#888' }}>
+                등록된 책이 없습니다.
+              </Text>
+            )}
           </View>
-          <View style={{ flexDirection: "row", marginBottom: 30 }}>
-            <LibraryBookItem title="책 제목어쩌고" />
-            <LibraryBookItem title="책 제목어쩌고" />
-            <LibraryBookItem title="책 제목어쩌고" />
-          </View>
-          {/* 추가적인 리스트는 여기에... */}
-        </View>
+        )}
       </ScrollView>
     </MainLayout>
   );
