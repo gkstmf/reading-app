@@ -6,13 +6,16 @@ export const addUserBook = async (req: Request, res: Response) => {
   try {
     const userId = 1; // 임시 ID
     // const userId = req.user.id; // 나중에 이 코드를 사용
-    const { bookId, status } = req.body;
+    // 프론트(앱)에서 카카오 API(isbn)로 검색한 후, 선택한 책의 전체 정보를 body에 담아 보낸다고 가정.
+    const { isbn, title, author, publisher, description, coverImage, status } = req.body;
 
-    if (!bookId || !status) {
-      return res.status(400).json({ error: "bookId와 status가 필요합니다." });
+    if (!isbn || !status) {
+      return res.status(400).json({ error: "isbn과 status가 필요합니다." });
     }
 
-    const newUserBook = await userBookService.addUserBook(userId, Number(bookId), status);
+    const newUserBook = await userBookService.addUserBook(userId, {
+      isbn, title, author, publisher, description, coverImage
+    }, status);
     res.status(201).json(newUserBook);
   } catch (err: any) {
     res.status(400).json({ error: err.message });

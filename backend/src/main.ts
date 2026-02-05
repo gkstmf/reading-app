@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoute from "./modules/auth/auth.route";
 import userRoute from "./modules/user/user.route";
 import userBooksRoute from "./modules/user-books/user-books.route";
+import bookRoute from "./modules/book/book.route";
 
 const app = express(); // 익스프레스 앱 생성
 app.use(cors()); 
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/user", userRoute);
 app.use("/user-books", userBooksRoute);
+app.use("/book", bookRoute);
 
 app.listen(3000, "0.0.0.0", () => {
   console.log("🚀 서버 실행 중...");

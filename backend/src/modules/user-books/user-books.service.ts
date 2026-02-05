@@ -1,10 +1,33 @@
 import { prisma } from "../../config/prisma";
 
+// 책 정보 타입 정의
+interface BookData {
+  isbn: string;
+  title: string;
+  author: string;
+  publisher?: string;
+  description?: string;
+  coverImage?: string;
+}
+
 // 내 서재에 책 추가 서비스
-export const addUserBook = async (userId: number, bookId: number, status: string) => {
+export const addUserBook = async (userId: number, bookData: BookData, status: string) => {
+  // Book 테이블에 이 책이 있는지 확인하고 없으면 생성 (upsert 활용)
+  const book = await prisma.book.upsert({
+    where: { isbn: bookData.isbn },
+    update: {}, // 이미 존재한다면 정보를 유지함
+    create: {
+      isbn: bookData.isbn,
+      title: bookData.title,
+      author: bookData.author,
+      publisher: bookData.publisher || "정보 없음",
+      description: bookData.description || "",
+      coverImage: bookData.coverImage || "",
+    },
+  });
   // 이미 서재에 있는 책인지 확인
   const existing = await prisma.readingStatus.findFirst({
-    where: { userId, bookId },
+    where: { userId, bookId: book.id },
   });
 
   if (existing) throw new Error("이미 서재에 등록된 책입니다.");
@@ -12,7 +35,7 @@ export const addUserBook = async (userId: number, bookId: number, status: string
   return await prisma.readingStatus.create({
     data: {
       userId,
-      bookId,
+      bookId: book.id,
       status, // 'WISH', 'READING', 'FINISHED'
     },
   });
@@ -40,7 +63,9 @@ export const getUserBooks = async (userId: number, status?: string) => {
 
   // 컨트롤러가 요구하는 JSON 형태로 변환
   return userBooks.map((record) => ({
+    userBookId: record.id, // 책 관리용 ID
     bookId: record.bookId,
+    isbn: record.book.isbn, // ISBN 정보. 프론트에서 필요할 수 있음
     title: record.book.title,
     author: record.book.author,
     publisher: record.book.publisher,
