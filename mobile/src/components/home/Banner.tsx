@@ -7,7 +7,7 @@ export default function Banner() {
     <View 
       style={{ 
         backgroundColor: "#D9D9D9", 
-        paddingVertical: 22, 
+        paddingVertical: 25, 
         alignItems: "center" 
       }}
     >

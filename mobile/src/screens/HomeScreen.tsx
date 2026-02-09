@@ -1,8 +1,8 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import MainLayout from "../layouts/MainLayout";
-import AppHeader from "../components/common/AppHeader";
 import Banner from "../components/home/Banner";
 import MyLibraryPreview from "../components/home/MyLibraryPreview";
 import GroupSection from "../components/group/GroupSection";
@@ -10,17 +10,16 @@ import GroupSection from "../components/group/GroupSection";
 const HomeScreen = () => {
   return (
     <MainLayout>
-      <ScrollView
-        contentContainerStyle={{ paddingVertical: 28, paddingBottom: 40 }}
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ paddingTop: 28, paddingBottom: 0 }}
         showsVerticalScrollIndicator={false}
       >
-        <AppHeader title="우리독서" />
-        <View style={{ marginTop: 10, marginBottom: 20 }}>
+        <View style={{ marginTop: -30, marginBottom: 20 }}>
           <Banner />
         </View>
-          <GroupSection />
+        <GroupSection />
         <MyLibraryPreview />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </MainLayout>
   );
 };

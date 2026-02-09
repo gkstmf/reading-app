@@ -1,22 +1,22 @@
 import React from "react";
 
-import { ScrollView, Text, Image, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
+import { ScrollView, Text, Image, TouchableOpacity, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context"; 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AuthInput from "../components/auth/AuthInput";
 
 export default function LoginScreen({ navigation }: any) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      <KeyboardAwareScrollView
         style={{ flex: 1 }}
-      />
-      <ScrollView 
         contentContainerStyle={{ 
           alignItems: "center", 
           paddingTop: 100, 
           paddingHorizontal: 40 
         }}
+        enableOnAndroid={true} // 안드로이드 대응
+        extraScrollHeight={20} // 키보드와 입력창 사이 간격
       >
         {/* 로고 섹션 */}
         <Image 
@@ -56,7 +56,7 @@ export default function LoginScreen({ navigation }: any) {
         >
           <Text style={{ color: "#486240", fontSize: 18 }}>회원가입</Text>
         </TouchableOpacity>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }

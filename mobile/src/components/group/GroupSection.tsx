@@ -4,9 +4,9 @@ import GroupCard from "./GroupCard";
 
 export default function GroupSection() {
   return (
-    <View style={{ paddingRight: 39, marginTop: 32 }}>
-      <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 27, textAlign: "center" }}>
-        참여중인 그룹
+    <View style={{ paddingHorizontal: 25, marginTop: 15 }}>
+      <Text style={{ fontSize: 22, fontWeight: "bold", marginBottom: 27, textAlign: "left" }}>
+        참여중인 모임
       </Text>
 
 
@@ -21,14 +21,14 @@ export default function GroupSection() {
         backgroundColor: "#D9D9D9", 
         borderRadius: 10, 
         height: 60, 
-        marginBottom: 15 
+        marginBottom: 15
       }} />
       
       <View style={{ 
         backgroundColor: "#D9D9D9", 
         borderRadius: 10, 
         height: 60, 
-        marginBottom: 15 
+        marginBottom: 15
       }} />
     </View>
   );

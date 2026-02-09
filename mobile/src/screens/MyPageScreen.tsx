@@ -1,7 +1,8 @@
 // src/screens/MyPageScreen.tsx
 
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import MainLayout from "../layouts/MainLayout";
 import MyProfile from "../components/my/MyProfile";
@@ -12,7 +13,7 @@ export default function MyPageScreen() {
   console.log("Check MyAccount:", MyAccount);
   return (
     <MainLayout>
-      <ScrollView
+      <KeyboardAwareScrollView
         style={{ flex: 1, paddingVertical: 28, paddingHorizontal: 26 }}
         showsVerticalScrollIndicator={false}
       >
@@ -22,7 +23,7 @@ export default function MyPageScreen() {
         </View>
 
         <MyAccount />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </MainLayout>
   );
 }

@@ -15,12 +15,14 @@ export default function AppHeader({
   rightText,
 }: Props) {
   return (
-    <View style={{ paddingRight: 21, marginBottom: 43 }}>
+    <View style={{ paddingRight: 21, marginBottom: 15 }}>
       <Text
         style={{
-          fontSize: 24,
-          marginBottom: 27,
-          marginLeft: 18,
+          fontSize: 28,
+          fontWeight: "bold",
+          marginTop: 25,
+          marginBottom: 0,
+          marginLeft: 20,
         }}
       >
         {title}

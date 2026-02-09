@@ -34,7 +34,7 @@ export default function LibraryDetailScreen({ type = "wish" }: LibraryDetailProp
     const fetchUserBooks = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://172.30.1.84:3000/user-books?status=${status}`);
+        const response = await fetch(`http://192.168.132.1:3000/user-books?status=${status}`);
         
         if (!response.ok) {
           throw new Error('네트워크 응답이 좋지 않습니다.');

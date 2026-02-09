@@ -7,8 +7,7 @@ export default function BottomTabBar() {
   const route = useRoute();
   const getTextStyle = (routeName: string) => {
     return {
-      fontSize: 15,
-      // 현재 화면 이름(route.name)이 버튼 이름과 같으면 초록색, 아니면 회색
+      fontSize: 18,
       color: route.name === routeName ? "#486240" : "#B8B8B8", 
       fontWeight: route.name === routeName ? "bold" as const : "normal" as const,
       letterSpacing: 1.3,
