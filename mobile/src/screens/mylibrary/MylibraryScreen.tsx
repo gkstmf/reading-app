@@ -3,7 +3,7 @@ import { ScrollView, View, Text, ActivityIndicator } from "react-native";
 import MainLayout from "../../layouts/MainLayout";
 import LibrarySection from "../../components/library/LibrarySection";
 
-const API_URL = "http://172.30.1.84:3000/user-books";
+const API_URL = "http://192.168.219.110:3000/user-books";
 
 export default function LibraryScreen() {
   const [books, setBooks] = useState<any[]>([]);

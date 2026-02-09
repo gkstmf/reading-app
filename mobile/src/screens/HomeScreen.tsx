@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 
 import MainLayout from "../layouts/MainLayout";
 import AppHeader from "../components/common/AppHeader";
@@ -11,12 +11,14 @@ const HomeScreen = () => {
   return (
     <MainLayout>
       <ScrollView
-        contentContainerStyle={{ paddingVertical: 28 }}
+        contentContainerStyle={{ paddingVertical: 28, paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
       >
-        <AppHeader title="복작복작" />
-        <Banner />
-        <GroupSection />
+        <AppHeader title="우리독서" />
+        <View style={{ marginTop: 10, marginBottom: 20 }}>
+          <Banner />
+        </View>
+          <GroupSection />
         <MyLibraryPreview />
       </ScrollView>
     </MainLayout>

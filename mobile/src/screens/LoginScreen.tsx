@@ -1,12 +1,16 @@
 import React from "react";
 
-import { ScrollView, Text, Image, TouchableOpacity } from "react-native";
+import { ScrollView, Text, Image, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context"; 
 import AuthInput from "../components/auth/AuthInput";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }: any) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      />
       <ScrollView 
         contentContainerStyle={{ 
           alignItems: "center", 
@@ -19,11 +23,11 @@ export default function LoginScreen() {
           source={{ uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/uudb80hvHm/cvdykkw8_expires_30_days.png" }}
           style={{ width: 80, height: 80, marginBottom: 10 }} 
         />
-        <Text style={{ fontSize: 20, marginBottom: 40 }}>복작복작</Text>
+        <Text style={{ fontSize: 20, marginBottom: 40 }}>우리독서</Text>
 
         {/* 입력 섹션 */}
         <AuthInput label="이메일 주소" placeholder="이메일 주소를 입력해주세요." />
-        <AuthInput label="비밀번호" placeholder="비밀번호를 입력해주세요." />
+        <AuthInput label="비밀번호" placeholder="비밀번호를 입력해주세요." secureTextEntry={true}/>
 
         {/* 버튼 섹션 */}
         <TouchableOpacity 
@@ -35,7 +39,7 @@ export default function LoginScreen() {
             alignItems: 'center', 
             marginBottom: 10 
           }} 
-          onPress={() => console.log('로그인 시도')}
+          onPress={() => navigation.navigate('Main')}
         >
           <Text style={{ color: "#FFF", fontSize: 18 }}>로그인</Text>
         </TouchableOpacity>
@@ -48,7 +52,7 @@ export default function LoginScreen() {
             borderRadius: 4, 
             alignItems: 'center' 
           }} 
-          onPress={() => console.log('회원가입 이동')}
+          onPress={() => navigation.navigate('SignUp')}
         >
           <Text style={{ color: "#486240", fontSize: 18 }}>회원가입</Text>
         </TouchableOpacity>
