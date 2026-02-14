@@ -1,6 +1,6 @@
 // src/screens/mylibrary/MemberLibrary
 
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView, View, Text, Image } from "react-native";
 import MainLayout from "../../layouts/MainLayout";
 import LibrarySection from "../../components/library/LibrarySection";
@@ -10,6 +10,7 @@ interface MemberLibraryProps {
 }
 
 export default function MemberLibraryScreen({ memberName }: MemberLibraryProps) {
+    const [books, setBooks] = useState<any[]>([]);
   return (
     <MainLayout>
       <ScrollView 
@@ -38,18 +39,23 @@ export default function MemberLibraryScreen({ memberName }: MemberLibraryProps) 
         </View>
 
         <View style={{ paddingHorizontal: 13 }}>
-          <LibrarySection 
-            title="독서 위시리스트" 
-            iconUri="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/uudb80hvHm/j0zsgmgl_expires_30_days.png" 
-          />
-          <LibrarySection 
-            title="독서 중" 
-            iconUri="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/uudb80hvHm/jfjbuiw7_expires_30_days.png" 
-          />
-          <LibrarySection 
-            title="독서 완료" 
-            iconUri="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/uudb80hvHm/33u8jzz8_expires_30_days.png" 
-          />
+          <LibrarySection
+                        title="독서 위시리스트"
+                        books={books.filter(b => b.status === "WISH")}
+                        type="wish"
+                      />
+          
+                      <LibrarySection
+                        title="독서 중"
+                        books={books.filter(b => b.status === "READING")}
+                        type="reading"
+                      />
+          
+                      <LibrarySection
+                        title="독서 완료"
+                        books={books.filter(b => b.status === "FINISHED")}
+                        type="finished"
+                      />
         </View>
       </ScrollView>
     </MainLayout>

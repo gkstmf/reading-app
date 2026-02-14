@@ -6,6 +6,7 @@ import MainLayout from "../layouts/MainLayout";
 import Banner from "../components/home/Banner";
 import MyLibraryPreview from "../components/home/MyLibraryPreview";
 import GroupSection from "../components/group/GroupSection";
+import SearchBar from "../components/common/SearchBar";
 
 const HomeScreen = () => {
   return (
@@ -17,6 +18,7 @@ const HomeScreen = () => {
         <View style={{ marginTop: -30, marginBottom: 20 }}>
           <Banner />
         </View>
+        <SearchBar />
         <GroupSection />
         <MyLibraryPreview />
       </KeyboardAwareScrollView>

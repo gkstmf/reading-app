@@ -37,7 +37,7 @@ export default function BookSearchScreen() {
   };
 
   return (
-    <MainLayout>
+    <MainLayout showHeader={false}>
       <ScrollView 
         style={styles.container}
         showsVerticalScrollIndicator={false} 
@@ -49,7 +49,7 @@ export default function BookSearchScreen() {
             placeholder="종의 기원" 
             value={searchQuery}
             onChangeText={setSearchQuery}
-            onSubmitEditing={handleSearch}
+            //onSubmitEditing={handleSearch}
           />
         </View>
 
@@ -60,7 +60,7 @@ export default function BookSearchScreen() {
               <BookItem 
               key={book.id} 
               book={book} 
-              onPress={() => navigation.navigate("BookDetail", { bookId: book.id })} />
+              onPress={() => navigation.navigate("BookDetailScreen", { bookId: book.id })} />
             ))
           ) : (
            <SearchHistory 

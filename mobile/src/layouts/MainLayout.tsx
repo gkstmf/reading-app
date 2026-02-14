@@ -11,6 +11,8 @@ interface MainLayoutProps {
   profileImage?: string;
   rightIcon?: string;
   rightText?: string;
+  showHeader?: boolean; 
+  showTabBar?: boolean;
 }
 
 export default function MainLayout({ 
@@ -18,21 +20,25 @@ export default function MainLayout({
   title = "우리독서",
   profileImage,
   rightIcon,
-  rightText 
+  rightText,
+  showHeader = true, 
+  showTabBar = true
 }: MainLayoutProps) {
   return (
     <SafeAreaView style={styles.safeArea}>
+      {showHeader && (
       <AppHeader 
         title={title}
         profileImage={profileImage}
         rightIcon={rightIcon}
         rightText={rightText}
       />
+      )}
 
       {/* 컨텐츠 영역 */}
       <View style={styles.content}>{children}</View>
 
-      <BottomTabBar /> 
+      {showTabBar && <BottomTabBar />}
     </SafeAreaView>
   );
 }

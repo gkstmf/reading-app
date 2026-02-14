@@ -7,23 +7,29 @@ import LibraryBookItem from "./LibraryBookItem";
 interface LibrarySectionProps {
   title: string;
   books: any[];
+  type: "wish" | "reading" | "finished";
+  hideHeader?: boolean;
 }
 
-export default function LibrarySection({title,books,}: LibrarySectionProps) {
+export default function LibrarySection({title,books, type, hideHeader = false}: LibrarySectionProps) {
   const navigation = useNavigation<any>();
   const displayItems = [0, 1, 2]; // 책 세 칸으로 고정
 
   return (
     <View style={styles.container}>
+      {!hideHeader && (
+        <>
       <TouchableOpacity 
       style={styles.header} 
-      onPress={() => navigation.navigate("LibraryDetailScreen", { title })}
+      onPress={() => navigation.navigate("LibraryDetailScreen", { type: type })}
       >
         <Text style={styles.title}>{title}</Text>
         <Icon name="chevron-right" size={20} color="#000" />
       </TouchableOpacity>
 
       <View style={styles.divider} />
+      </>
+      )}
 
       <View style={styles.bookList}>
         {displayItems.map((_, index) => {

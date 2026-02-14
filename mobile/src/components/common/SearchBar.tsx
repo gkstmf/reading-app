@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignItems: "flex-end",
-    marginLeft: '90%',
+    marginLeft: '93%',
   },
   input: {
     flex: 1,

@@ -21,12 +21,12 @@ export default function RootNavigator() {
       <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Main" component={MainTabNavigator} options={{ headerShown: false }} />
       
-      <Stack.Screen name="BookDetail" component={BookDetailScreen} />
-      <Stack.Screen name="OtherBookDetail" component={OtherBookDetailScreen} />
+      <Stack.Screen name="OtherBookDetail" component={OtherBookDetailScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="GroupDetailScreen" component={GroupDetailScreen} options={{ headerShown: false }} />
       <Stack.Screen name="BooksearchScreen" component={BooksearchScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CreateGroupScreen" component={CreateGroupScreen} options={{ headerShown: false }} />
       <Stack.Screen name="LibraryDetailScreen" component={LibraryDetailScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="BookDetailScreen" component={BookDetailScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }

@@ -4,7 +4,7 @@ import MainLayout from "../../layouts/MainLayout";
 import LibrarySection from "../../components/library/LibrarySection";
 import SearchBar from "../../components/common/SearchBar";
 
-const API_URL = "http://192.168.219.110:3000/user-books";
+const API_URL = "http://192.168.132.1:3000/user-books";
 
 export default function LibraryScreen() {
   const [books, setBooks] = useState<any[]>([]);
@@ -66,19 +66,19 @@ export default function LibraryScreen() {
             <LibrarySection
               title="독서 위시리스트"
               books={books.filter(b => b.status === "WISH")}
-              //iconUri="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/uudb80hvHm/u0tctwi0_expires_30_days.png"
+              type="wish"
             />
 
             <LibrarySection
               title="독서 중"
               books={books.filter(b => b.status === "READING")}
-              //iconUri="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/uudb80hvHm/39hw5iz2_expires_30_days.png"
+              type="reading"
             />
 
             <LibrarySection
               title="독서 완료"
               books={books.filter(b => b.status === "FINISHED")}
-              //iconUri="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/uudb80hvHm/dmxohdva_expires_30_days.png"
+              type="finished"
             />
           </>
         )}
