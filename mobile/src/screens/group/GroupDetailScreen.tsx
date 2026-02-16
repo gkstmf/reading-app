@@ -1,17 +1,25 @@
 import React from "react";
-import { ScrollView, View, Text, Image } from "react-native";
+import { ScrollView, View, Text, Image, TouchableOpacity } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import MainLayout from "../../layouts/MainLayout";
 import MemberLibraryItem from "../../components/group/MemberLibraryItem";
 
 export default function GroupDetailScreen() {
+  const route = useRoute<any>();
+  const navigation = useNavigation<any>();
+
   return (
-    <MainLayout>
+    <MainLayout showHeader={false} showTabBar={false}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingVertical: 30, paddingHorizontal: 20 }}>
         
         {/* 타이틀 영역 */}
-        <View style={{ alignItems: "center", marginBottom: 30 }}>
-          <Text style={{ fontSize: 24, fontWeight: "bold", color: "#000" }}>참여중인 독서모임</Text>
+        <View style={{ flexDirection: "row", marginBottom: 33 }}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={{ fontSize: 24, marginRight: 23 }}>{"←"}</Text>
+          </TouchableOpacity>
+          <Text style={{ fontSize: 24, fontWeight: "bold" }}>{"참여중인 독서모임"}</Text>
         </View>
+        
 
         {/* 모임 상세 카드 */}
         <View style={{ 
@@ -22,7 +30,7 @@ export default function GroupDetailScreen() {
           padding: 20, 
           marginBottom: 40 
         }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 15 }}>모임명</Text>
+          <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 15 }}>{"그룹명"}</Text>
           <Text style={{ fontSize: 14, color: "#333", marginBottom: 20, lineHeight: 22 }}>
             {"교환독서 조지기\n\n규칙 : 어쩌고 저쩌고\n못 읽으면 빙수사기 화이팅~"}
           </Text>

@@ -1,22 +1,28 @@
 import React from "react";
-import { ScrollView, View, Text, Image } from "react-native";
+import { ScrollView, View, Text, Image, TouchableOpacity } from "react-native";
 import MainLayout from "../../layouts/MainLayout";
 import { ActionButton, BigButton } from "../../components/book/BookActionButton";
+import { useNavigation } from "@react-navigation/native";
 
 interface BookDetailProps {
   status: "search" | "reading" | "finished";
 }
 
 export default function BookDetailScreen({ status = "search" }: BookDetailProps) {
+  const navigation = useNavigation();
   return (
-    <MainLayout>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 25, paddingBottom: 40 }}>
+    <MainLayout showHeader={false} showTabBar={false}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 20, paddingBottom: 40 }}>
         
         {/* 헤더 영역 */}
         <View style={{ flexDirection: "row", marginBottom: 33 }}>
-          <Text style={{ fontSize: 24, marginRight: 23 }}>{"←"}</Text>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={{ fontSize: 24, marginRight: 23 }}>{"←"}</Text>
+          </TouchableOpacity>
           <Text style={{ fontSize: 24, fontWeight: "bold" }}>{"도서 정보"}</Text>
         </View>
+
+        
 
         {/* 도서 기본 정보 */}
         <View style={{ flexDirection: "row", marginBottom: 30 }}>

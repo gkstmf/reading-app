@@ -1,39 +1,37 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import LibraryBookItem from "./LibraryBookItem";
 
 interface LibrarySectionProps {
   title: string;
-  iconUri: string;
   books: any[];
+  type: "wish" | "reading" | "finished";
+  hideHeader?: boolean;
 }
 
-export default function LibrarySection({
-  title,
-  iconUri,
-  books,
-}: LibrarySectionProps) {
-
-  // 책 세 칸으로 고정
-  const displayItems = [0, 1, 2]; 
+export default function LibrarySection({title,books, type, hideHeader = false}: LibrarySectionProps) {
+  const navigation = useNavigation<any>();
+  const displayItems = [0, 1, 2]; // 책 세 칸으로 고정
 
   return (
-    <View style={{ marginBottom: 20 }}>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: 7,
-        }}
+    <View style={styles.container}>
+      {!hideHeader && (
+        <>
+      <TouchableOpacity 
+      style={styles.header} 
+      onPress={() => navigation.navigate("LibraryDetailScreen", { type: type })}
       >
-        <Text style={{ fontSize: 16, color: "#000" }}>{title}</Text>
-        <Image source={{ uri: iconUri }} style={{ width: 16, height: 16 }} />
-      </View>
+        <Text style={styles.title}>{title}</Text>
+        <Icon name="chevron-right" size={20} color="#000" />
+      </TouchableOpacity>
 
-      <View style={{ height: 1, backgroundColor: "#000", marginBottom: 13 }} />
+      <View style={styles.divider} />
+      </>
+      )}
 
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <View style={styles.bookList}>
         {displayItems.map((_, index) => {
           const book = books[index]; // 데이터가 있으면 해당 책, 없으면 undefined
 
@@ -49,3 +47,29 @@ export default function LibrarySection({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 20,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 7,
+    paddingVertical: 5,
+  },
+  title: {
+    fontSize: 18,
+    color: "#000",
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "#000",
+    marginBottom: 13,
+  },
+  bookList: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+});

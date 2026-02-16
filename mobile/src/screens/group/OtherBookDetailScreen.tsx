@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View, Text, Image, TouchableOpacity } from "react-native";
+import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 import MainLayout from "../../layouts/MainLayout";
 import { ActionButton } from "../../components/book/BookActionButton";
 import { GroupTag } from "../../components/book/BookGroupTag";
