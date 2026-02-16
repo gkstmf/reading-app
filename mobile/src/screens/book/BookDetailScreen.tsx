@@ -1,8 +1,8 @@
-import React from "react";
-import { ScrollView, View, Text, Image, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, View, Text, Image, TouchableOpacity, ActivityIndicator } from "react-native";
 import MainLayout from "../../layouts/MainLayout";
 import { ActionButton, BigButton } from "../../components/book/BookActionButton";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 interface BookDetailProps {
   status: "search" | "reading" | "finished";
@@ -10,6 +10,39 @@ interface BookDetailProps {
 
 export default function BookDetailScreen({ status = "search" }: BookDetailProps) {
   const navigation = useNavigation();
+  const route = useRoute<any>();
+  const { bookId } = route.params;
+
+  const [book, setBook] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBookDetail = async () => {
+      try {
+        setLoading(true);
+        // 👈 주의: 현재 핫스팟으로 연결된 노트북의 새로운 IP 주소를 넣어주세요!
+        const response = await fetch(`http://172.20.10.2:3000/book/${bookId}`);
+        const data = await response.json();
+        
+        // 서버 응답 구조가 image_532344.png처럼 { books: [...] }가 아니라 단일 객체인지 확인 필요
+        setBook(data); 
+      } catch (err) {
+        console.error("상세 데이터 로딩 실패:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBookDetail();
+  }, [bookId]);
+
+  if (loading) {
+    return (
+      <MainLayout showHeader={false} showTabBar={false}>
+        <ActivityIndicator size="large" style={{ flex: 1 }} />
+      </MainLayout>
+    );
+  }
+
   return (
     <MainLayout showHeader={false} showTabBar={false}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 20, paddingBottom: 40 }}>
