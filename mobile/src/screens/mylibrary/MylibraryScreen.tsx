@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, View, Text, ActivityIndicator } from "react-native";
+import { ScrollView, View, ActivityIndicator } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import MainLayout from "../../layouts/MainLayout";
 import LibrarySection from "../../components/library/LibrarySection";
-import SearchBar from "../../components/common/SearchBar";
+import Search from "../../components/common/Search";
 
 const API_URL = "http://192.168.132.1:3000/user-books";
 
 export default function LibraryScreen() {
   const [books, setBooks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const navigation = useNavigation<any>();
 
   useEffect(() => {
     const fetchAllBooks = async () => {
@@ -55,7 +58,11 @@ export default function LibraryScreen() {
   return (
     <MainLayout>
       <View style={{ width: '100%', paddingHorizontal: 20, paddingTop: 10 }}>
-        <SearchBar />
+        <Search 
+          placeholder="검색" 
+          onPress={() => navigation.navigate("SearchScreen")} 
+          editable={false} 
+        />
       </View>
 
       <ScrollView style={{ flex: 1, paddingVertical: 35, paddingHorizontal: 26 }}>

@@ -6,7 +6,6 @@ import MemberLibraryItem from "../../components/group/MemberLibraryItem";
 
 export default function GroupDetailScreen() {
   const route = useRoute<any>();
-  //const { groupName } = route.params;
   const navigation = useNavigation<any>();
 
   return (

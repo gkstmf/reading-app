@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { PencilLine } from 'lucide-react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function MyProfile() {
   return (

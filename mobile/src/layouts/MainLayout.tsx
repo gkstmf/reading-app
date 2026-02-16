@@ -3,7 +3,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import BottomTabBar from "../components/common/BottomTabBar";
-import AppHeader from "../components/common/AppHeader"; // 👈 기존 AppHeader 임포트
+import AppHeader from "../components/common/AppHeader"; 
 
 interface MainLayoutProps {
   children: React.ReactNode;

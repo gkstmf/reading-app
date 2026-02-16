@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, View, Text, Image, TouchableOpacity, ActivityIndicator, StyleSheet, Keyboard } from "react-native";
+import { ScrollView, View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import MainLayout from "../../layouts/MainLayout";
 import LibraryBookItem from "../../components/library/LibraryBookItem";
 import Search from "../../components/common/Search";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import Feather from '@expo/vector-icons/Feather';
 
 const CONFIG = {
@@ -28,13 +28,10 @@ export default function LibraryDetailScreen() {
   const route = useRoute<any>();
   const type = route.params?.type || "wish";
   const { title, status, iconName } = CONFIG[type];
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   const [books, setBooks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const [isFullSearch, setIsFullSearch] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchUserBooks = async () => {
@@ -54,63 +51,49 @@ export default function LibraryDetailScreen() {
   }, [type]);
 
   return (
-    <MainLayout showHeader={false} showTabBar={!isFullSearch}>
+    <MainLayout showHeader={false}>
       <View style={styles.container}>
         
-        
-        {!isFullSearch && (
-          <View style={styles.headerSection}>
-            <View style={styles.titleRow}>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={styles.backArrow}>{"←"}</Text>
-              </TouchableOpacity>
-              <Text style={styles.headerTitle}>{title}</Text>
-              <Feather name={iconName as any} size={18} color="black" />
-            </View>
-            <View style={styles.divider} />
+        <View style={styles.headerSection}>
+          <View style={styles.titleRow}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.backArrow}>{"←"}</Text>
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>{title}</Text>
+            <Feather name={iconName as any} size={18} color="black" />
           </View>
-        )}
+          <View style={styles.divider} />
+        </View>
 
-        
         <Search 
-          isFullMode={isFullSearch}
-          onBack={() => {setIsFullSearch(false)}}
-          onPress={() => setIsFullSearch(true)}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          placeholder="검색"
-          editable={isFullSearch}
+          placeholder="검색" 
+          onPress={() => navigation.navigate("SearchScreen")} 
+          editable={false} 
         />
 
-        
-        {isFullSearch ? (
-          <View style={styles.recentSearchSection}>
-            <View style={styles.headerSection}>
-              <Text style={styles.recentTitle}>최근 검색</Text>
-            </View>
-              <Text style={styles.emptyRecent}>최근 검색 내역이 없습니다.</Text>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View style={styles.editBtnWrapper}>
+            <TouchableOpacity style={styles.editBtn}>
+              <Text style={styles.editBtnText}>편집</Text>
+            </TouchableOpacity>
           </View>
-        ) : (
-          <ScrollView contentContainerStyle={styles.scrollContent}>
-            <View style={styles.editBtnWrapper}>
-              <TouchableOpacity style={styles.editBtn}>
-                <Text style={styles.editBtnText}>편집</Text>
-              </TouchableOpacity>
-            </View>
 
-            {loading ? (
-              <ActivityIndicator size="large" color="#000" style={styles.loader} />
-            ) : (
-              <View style={styles.bookGrid}>
-                {books.map((book) => (
+          {loading ? (
+            <ActivityIndicator size="large" color="#000" style={styles.loader} />
+          ) : (
+            <View style={styles.bookGrid}>
+              {books.length > 0 ? (
+                books.map((book) => (
                   <View key={book.bookId} style={styles.bookItemWrapper}>
                     <LibraryBookItem title={book.title} coverImage={book.coverImage} />
                   </View>
-                ))}
-              </View>
-            )}
-          </ScrollView>
-        )}
+                ))
+              ) : (
+                <Text style={styles.emptyText}>등록된 책이 없습니다.</Text>
+              )}
+            </View>
+          )}
+        </ScrollView>
       </View>
     </MainLayout>
   );
@@ -153,6 +136,7 @@ const styles = StyleSheet.create({
   },
   backArrow: {
     fontSize: 24,
+    marginLeft: 10,
     marginRight: 23,
     color: "#000",
   },

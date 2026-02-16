@@ -1,7 +1,6 @@
 import React from "react";
-import { ScrollView, View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import MainLayout from "../../layouts/MainLayout";
-import GroupCard from "../../components/group/GroupCard";
 import GroupSection from "../../components/group/GroupSection";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";

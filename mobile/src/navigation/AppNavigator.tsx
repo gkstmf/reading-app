@@ -6,11 +6,13 @@ import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import BookDetailScreen from '../screens/book/BookDetailScreen';
 import OtherBookDetailScreen from '../screens/group/OtherBookDetailScreen';
-import BooksearchScreen from '../screens/BooksearchSceen'; 
 import MainTabNavigator from './MainTabNavigator';
 import GroupDetailScreen from '../screens/group/GroupDetailScreen';
 import CreateGroupScreen from '../screens/group/CreateGroupScreen';
 import LibraryDetailScreen from '../screens/mylibrary/LibraryDetailScreen';
+import SearchScreen from '../screens/SearchScreen';
+
+// import BooksearchScreen from '../screens/BooksearchSceen'; 
 
 const Stack = createNativeStackNavigator();
 
@@ -23,10 +25,12 @@ export default function RootNavigator() {
       
       <Stack.Screen name="OtherBookDetail" component={OtherBookDetailScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="GroupDetailScreen" component={GroupDetailScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="BooksearchScreen" component={BooksearchScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CreateGroupScreen" component={CreateGroupScreen} options={{ headerShown: false }} />
       <Stack.Screen name="LibraryDetailScreen" component={LibraryDetailScreen} options={{ headerShown: false }} />
       <Stack.Screen name="BookDetailScreen" component={BookDetailScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="SearchScreen" component={SearchScreen} options={{ headerShown: false }} />
+      
+      {/* <Stack.Screen name="BooksearchScreen" component={BooksearchScreen} options={{ headerShown: false }} /> */}
     </Stack.Navigator>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ScrollView, Text, Image, TouchableOpacity, Platform } from "react-native";
+import { ScrollView, Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context"; 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AuthInput from "../components/auth/AuthInput";
