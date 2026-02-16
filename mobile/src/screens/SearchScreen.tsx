@@ -16,7 +16,7 @@ export default function SearchScreen() {
     if (text.trim().length > 0) {
       try {
         // API 명세서의 /books?query={searchKeyword} 사용
-        const response = await fetch(`http://172.30.88.250:3000/books?query=${text}`);
+        const response = await fetch(`http://172.30.88.250:3000/book?query=${encodeURIComponent(searchQuery)}`);
         const data = await response.json();
         // 응답 데이터 구조에 맞춰 수정 (예: data.books 또는 data)
         setResults(data); 
