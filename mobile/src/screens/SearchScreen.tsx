@@ -16,8 +16,10 @@ export default function SearchScreen() {
     if (text.trim().length > 0) {
       try {
         // API 명세서의 /books?query={searchKeyword} 사용
-        const response = await fetch(`http://172.20.10.2:3000/book?query=${encodeURIComponent(text)}`);
+        const response = await fetch(`http://192.168.219.112:3000/book?query=${encodeURIComponent(text)}`);
+        if (!response.ok) throw new Error('서버 응답 없음');
         const data = await response.json();
+        
 
         setResults(data.books); 
         
@@ -60,7 +62,8 @@ export default function SearchScreen() {
       {searchQuery.length > 0 ? (
         <FlatList 
           data={results}
-          keyExtractor={(item) => item.isbn.toString()}
+          keyExtractor={(item, index) => `${item.isbn}_${index}`}
+          //keyExtractor={(item) => item.isbn.toString()}
           renderItem={renderBookItem}
           contentContainerStyle={styles.listContent}
           ListEmptyComponent={<Text style={styles.emptyText}>검색 결과가 없습니다.</Text>}
