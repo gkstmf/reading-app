@@ -1,6 +1,5 @@
 import React from "react";
-
-import { ScrollView, Text, Image, TouchableOpacity } from "react-native";
+import { Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context"; 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AuthInput from "../components/auth/AuthInput";
@@ -15,8 +14,8 @@ export default function LoginScreen({ navigation }: any) {
           paddingTop: 100, 
           paddingHorizontal: 40 
         }}
-        enableOnAndroid={true} // 안드로이드 대응
-        extraScrollHeight={20} // 키보드와 입력창 사이 간격
+        enableOnAndroid={true} 
+        extraScrollHeight={20} 
       >
         {/* 로고 섹션 */}
         <Image 

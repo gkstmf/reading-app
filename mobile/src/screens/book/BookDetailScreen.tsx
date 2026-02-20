@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity, ActivityIndicator, StyleSheet, Alert } from "react-native";
-import MainLayout from "../../layouts/MainLayout";
-import { ActionButton, BigButton } from "../../components/book/BookActionButton";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import MainLayout from "../../layouts/MainLayout";
 import Feather from '@expo/vector-icons/Feather';
 
 interface BookDetailProps {
@@ -22,11 +21,9 @@ export default function BookDetailScreen({ status = "search" }: BookDetailProps)
     const fetchBookDetail = async () => {
       try {
         setLoading(true);
-        // 👈 주의: 현재 핫스팟으로 연결된 노트북의 새로운 IP 주소를 넣어주세요!
         const response = await fetch(`http://192.168.219.112:3000/book/${bookId}`);
         const data = await response.json();
-        
-        // 서버 응답 구조가 image_532344.png처럼 { books: [...] }가 아니라 단일 객체인지 확인 필요
+
         setBook(data); 
       } catch (err) {
         console.error("상세 데이터 로딩 실패:", err);
@@ -133,9 +130,8 @@ export default function BookDetailScreen({ status = "search" }: BookDetailProps)
           <Text style={styles.headerTitle}>{"도서 정보"}</Text>
         </View>
 
-        {/* 도서 메인 정보 영역 (시안 반영) */}
+        {/* 도서 메인 정보 영역 */}
         <View style={styles.bookMainInfo}>
-          {/* 책 표지 이미지 */}
           <View style={styles.coverWrapper}>
             {book?.coverImage ? (
               <Image source={{ uri: book.coverImage }} style={styles.coverImage} resizeMode="cover" />
@@ -146,19 +142,16 @@ export default function BookDetailScreen({ status = "search" }: BookDetailProps)
 
           {/* 텍스트 정보 (제목, 저자, 출판사) */}
           <View style={styles.textInfoWrapper}>
-            {/* 제목 가로 스크롤 */}
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
               <View style={{ width: 300 }}>
                 <Text style={styles.bookTitle} numberOfLines={2}>{book?.title || "제목"}</Text>
               </View>
             </ScrollView>
 
-            {/* 저자 가로 스크롤 */}
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
               <Text style={styles.bookSubText}>{book?.author || "저자"}</Text>
             </ScrollView>
 
-            {/* 출판사 가로 스크롤 */}
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
               <Text style={styles.bookSubText}>{book?.publisher || "출판사"}</Text>
             </ScrollView>
@@ -172,19 +165,19 @@ export default function BookDetailScreen({ status = "search" }: BookDetailProps)
                     <Text style={styles.directButtonLabel}>위시리스트에 담기</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.directButton} onPress={() => showSaveOptions("READING")}>
+                  <TouchableOpacity style={styles.directButton} onPress={() => handleSaveBook("READING")}>
                     <Feather name="book-open" size={20} color="black" />
                     <Text style={styles.directButtonLabel}>읽고 있어요</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.directButton} onPress={() => showSaveOptions("FINISHED")}>
+                  <TouchableOpacity style={styles.directButton} onPress={() => handleSaveBook("FINISHED")}>
                     <Feather name="bookmark" size={20} color="black" />
                     <Text style={styles.directButtonLabel}>이미 읽었어요</Text>
                   </TouchableOpacity>
                 </>
               )}
+            </View>
           </View>
-        </View>
         </View>
 
 
@@ -195,8 +188,8 @@ export default function BookDetailScreen({ status = "search" }: BookDetailProps)
           <View style={styles.descriptionBox}> 
             <ScrollView 
               style={{ flex: 1 }} 
-              nestedScrollEnabled={true} // 부모 ScrollView와 충돌을 방지합니다.
-              showsVerticalScrollIndicator={true} // 스크롤 바를 보이게 해서 내려볼 수 있음을 알립니다.
+              nestedScrollEnabled={true} 
+              showsVerticalScrollIndicator={true} 
             >
               <Text style={styles.descriptionText}>
                 {book?.description ? `${book.description}...` : "책 상세 내용이 없습니다."}
