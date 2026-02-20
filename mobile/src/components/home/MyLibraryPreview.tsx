@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import LibrarySection from "../library/LibrarySection";
 
-const API_URL = "http://192.168.132.1:3000/user-books";
+const API_URL = "http://192.168.219.112:3000/user-books";
 
 export default function MyLibraryPreview() {
   const [readingBooks, setReadingBooks] = useState<any[]>([]);
