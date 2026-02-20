@@ -13,7 +13,9 @@ export default function MyProfile() {
           marginLeft: -5,
         }}
       >
-        <Icon name="circle" size={140} color="#D9D9D9" alignContent='flex-start' />
+        <View style={{ alignContent: 'flex-start' }}>
+          <Icon name="search" size={140} color="#D9D9D9" />
+        </View>
       
         <View style={{ flex: 1 }} />
 

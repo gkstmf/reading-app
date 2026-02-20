@@ -16,10 +16,13 @@ export default function SearchScreen() {
     if (text.trim().length > 0) {
       try {
         // API 명세서의 /books?query={searchKeyword} 사용
-        const response = await fetch(`http://172.30.88.250:3000/book?query=${encodeURIComponent(searchQuery)}`);
+        const response = await fetch(`http://192.168.219.112:3000/book?query=${encodeURIComponent(text)}`);
+        if (!response.ok) throw new Error('서버 응답 없음');
         const data = await response.json();
-        // 응답 데이터 구조에 맞춰 수정 (예: data.books 또는 data)
-        setResults(data); 
+        
+
+        setResults(data.books); 
+        
       } catch (err) {
         console.error("검색 에러:", err);
       }
@@ -33,7 +36,7 @@ export default function SearchScreen() {
     <TouchableOpacity 
       style={styles.bookItem} 
       // 👈 클릭 시 BookDetailScreen으로 bookId 전달
-      onPress={() => navigation.navigate("BookDetailScreen", { bookId: item.bookId })}
+      onPress={() => navigation.navigate("BookDetailScreen", { bookId: item.isbn })}
     >
       <Image source={{ uri: item.coverImage }} style={styles.coverImage} />
       <View style={styles.bookInfo}>
@@ -49,7 +52,7 @@ export default function SearchScreen() {
         isFullMode={true}
         onBack={() => { Keyboard.dismiss(); navigation.goBack(); }}
         value={searchQuery}
-        onChangeText={setSearchQuery}
+        onChangeText={handleSearch}
         onSubmit={() => {
             console.log("엔터 클릭! 검색어:", searchQuery);
             // 검색 기록 저장 API 호출 등을 여기서 하시면 됩니다.
@@ -59,9 +62,11 @@ export default function SearchScreen() {
       {searchQuery.length > 0 ? (
         <FlatList 
           data={results}
-          keyExtractor={(item) => item.bookId.toString()}
+          keyExtractor={(item, index) => `${item.isbn}_${index}`}
+          //keyExtractor={(item) => item.isbn.toString()}
           renderItem={renderBookItem}
           contentContainerStyle={styles.listContent}
+          ListEmptyComponent={<Text style={styles.emptyText}>검색 결과가 없습니다.</Text>}
         />
       ) : (
         <View style={styles.recentSection}>
