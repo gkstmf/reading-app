@@ -40,6 +40,8 @@ export default function MyLibraryPreview() {
     <View style={styles.container}>
       <Text style={styles.previewTitle}>내 서재</Text>
 
+      <View style={styles.titleDivider} />
+
       {loading ? (
         <ActivityIndicator size="small" color="#000" style={{ marginTop: 20 }} />
       ) : (
@@ -65,5 +67,11 @@ const styles = StyleSheet.create({
     marginBottom: 15, 
     fontWeight: "bold",
     textAlign: 'center' 
+  },
+  titleDivider: {
+    height: 1,
+    backgroundColor: "#000",
+    width: '100%',
+    marginBottom: 20,
   },
 });
