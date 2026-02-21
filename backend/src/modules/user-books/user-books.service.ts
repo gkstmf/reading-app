@@ -30,7 +30,14 @@ export const addUserBook = async (userId: number, bookData: BookData, status: st
     where: { userId, bookId: book.id },
   });
 
-  if (existing) throw new Error("이미 서재에 등록된 책입니다.");
+  //if (existing) throw new Error("이미 서재에 등록된 책입니다.");
+  if (existing) {
+    // 💡 [수정] 에러를 던지는 대신, 상태를 새로 입력받은 status로 업데이트합니다.
+    return await prisma.readingStatus.update({
+      where: { id: existing.id },
+      data: { status },
+    });
+  }
 
   return await prisma.readingStatus.create({
     data: {
