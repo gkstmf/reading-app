@@ -43,11 +43,10 @@ export default function LibraryScreen() {
 
   useEffect(() => {
     if (isFocused) {
-      fetchAllBooks(books.length === 0); // 처음이거나 데이터가 없을 때만 전체 로딩바 표시
+      fetchAllBooks(books.length === 0);
     }
   }, [isFocused, fetchAllBooks]);
 
-  // 🔄 손가락으로 당겨서 새로고침 핸들러
   const onRefresh = () => {
     setRefreshing(true);
     fetchAllBooks(false);
