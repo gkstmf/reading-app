@@ -4,8 +4,10 @@ import * as userService from "./user.service";
 // 내 정보 조회 컨트롤러
 export const getMe = async (req: Request, res: Response) => {
   try {
-    const userId = 1; // 임시 ID
-    // const userId = req.user.id; // 나중에 이 코드를 사용
+    if (!req.user) {
+        return res.status(401).json({ error: "로그인이 필요합니다." });
+    }
+    const userId = req.user.userId;
     const user = await userService.getUserProfile(userId);
 
     res.status(200).json({
@@ -13,15 +15,17 @@ export const getMe = async (req: Request, res: Response) => {
       user,
     });
   } catch (err: any) {
-    res.status(404).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 };
 
 // 내 정보 수정 컨트롤러
 export const updateMe = async (req: Request, res: Response) => {
   try {
-    const userId = 1; // 임시 ID
-    // const userId = req.user.id; // 나중에 이 코드를 사용
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    const userId = req.user.userId
     const { nickname, profileImage } = req.body;
 
     // 최소한 하나의 수정 데이터는 있어야 함
@@ -47,8 +51,10 @@ export const updateMe = async (req: Request, res: Response) => {
 // 회원 탈퇴 컨트롤러
 export const deleteMe = async (req: Request, res: Response) => {
   try {
-    const userId = 1; // 임시 ID
-    // const userId = req.user.id; // 나중에 이 코드를 사용
+    if (!req.user) {
+      return res.status(401).json({ error: "로그인이 필요합니다." });
+    }
+    const userId = req.user.userId;
     const result = await userService.deleteUser(userId);
 
     res.status(200).json(result);
