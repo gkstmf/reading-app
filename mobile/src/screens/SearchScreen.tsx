@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Keyboard } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Search from "../components/common/Search";
+import client from "../api/client";
 
 
 export default function SearchScreen() {
@@ -11,23 +12,54 @@ export default function SearchScreen() {
   const navigation = useNavigation<any>();
 
   // 🔍 도서 검색 API 호출
-  const handleSearch = async (text: string) => {
-    setSearchQuery(text);
-    if (text.trim().length > 0) {
-      try {
-        // API 명세서의 /books?query={searchKeyword} 사용
-        const response = await fetch(`http://192.168.219.112:3000/book?query=${encodeURIComponent(text)}`);
-        if (!response.ok) throw new Error('서버 응답 없음');
-        const data = await response.json();
+  // const handleSearch = async (text: string) => {
+  //   setSearchQuery(text);
+  //   if (text.trim().length > 0) {
+  //     try {
+  //       // API 명세서의 /books?query={searchKeyword} 사용
+  //       const response = await fetch(`http://192.168.219.112:3000/book?query=${encodeURIComponent(text)}`);
+  //       if (!response.ok) throw new Error('서버 응답 없음');
+  //       const data = await response.json();
         
 
-        setResults(data.books); 
+  //       setResults(data.books); 
         
-      } catch (err) {
-        console.error("검색 에러:", err);
-      }
-    } else {
+  //     } catch (err) {
+  //       console.error("검색 에러:", err);
+  //     }
+  //   } else {
+  //     setResults([]);
+  //   }
+  // };
+
+  // 🔍 도서 검색 API 실행 함수
+  const performSearch = async () => {
+    if (searchQuery.trim().length === 0) return;
+
+    try {
+      setIsLoading(true);
+      console.log(`🚀 검색 시작: ${searchQuery} (경로: /book)`);
+
+      // 💡 fetch 대신 우리가 만든 client 사용! 
+      // 아까 확인한 대로 백엔드가 단수형(/book)이므로 /book으로 보냅니다.
+      const response = await client.get('/book', {
+        params: { 
+          query: searchQuery, 
+          target: 'title' 
+        }
+      });
+
+      console.log("✅ 검색 성공:", response.data);
+      
+      // 데이터 구조가 { books: [...] } 인지 확인 후 세팅
+      const booksData = response.data.books || response.data;
+      setResults(Array.isArray(booksData) ? booksData : []);
+
+    } catch (err: any) {
+      console.error("❌ 검색 에러:", err.response?.data || err.message);
       setResults([]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,9 +84,10 @@ export default function SearchScreen() {
         isFullMode={true}
         onBack={() => { Keyboard.dismiss(); navigation.goBack(); }}
         value={searchQuery}
-        onChangeText={handleSearch}
+        onChangeText={(text) => setSearchQuery(text)}
         onSubmit={() => {
             console.log("엔터 클릭! 검색어:", searchQuery);
+            performSearch();
             // 검색 기록 저장 API 호출 등을 여기서 하시면 됩니다.
         }}
         placeholder="제목, 저자, 출판사 검색"
