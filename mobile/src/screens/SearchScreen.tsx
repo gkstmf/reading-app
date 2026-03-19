@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import Search from "../components/common/Search";
 
 
+
 export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
@@ -17,6 +18,7 @@ export default function SearchScreen() {
       try {
         // API 명세서의 /books?query={searchKeyword} 사용
         const response = await fetch(`http://192.168.219.112:3000/book?query=${encodeURIComponent(text)}`);
+        
         if (!response.ok) throw new Error('서버 응답 없음');
         const data = await response.json();
         
