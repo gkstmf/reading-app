@@ -21,7 +21,7 @@ const HomeScreen = () => {
     <MainLayout title="우리독서">
       {/* 1. 검색바 영역: 배경색 #F8FAF8 */}
       <View style={styles.searchBarWrapper}>
-        <View style={styles.searchBar}>
+        {/* <View style={styles.searchBar}>
           <SearchIcon size={20} color="#7E8341" />
           <TextInput
             style={styles.searchInput}
@@ -30,7 +30,22 @@ const HomeScreen = () => {
             onChangeText={setSearchQuery}
             placeholderTextColor="#999"
           />
-        </View>
+        </View> */}
+        <TouchableOpacity 
+    activeOpacity={1} // 클릭 시 깜빡임 방지
+    style={styles.searchBar} 
+    onPress={() => navigation.navigate("SearchScreen")} // 👈 여기서 이동!
+  >
+    <SearchIcon size={20} color="#7E8341" />
+    <TextInput
+      style={styles.searchInput}
+      placeholder="책 제목, 저자 검색"
+      value={searchQuery}
+      editable={false} // 👈 중요: 직접 타이핑 방지 (누르면 바로 이동하게)
+      pointerEvents="none" // 👈 중요: 안드로이드에서 클릭 이벤트가 TextInput에 먹히는 것 방지
+      placeholderTextColor="#999"
+    />
+  </TouchableOpacity>
       </View>
 
       <KeyboardAwareScrollView

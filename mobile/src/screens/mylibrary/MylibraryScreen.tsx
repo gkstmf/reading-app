@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Text, StyleSheet, TextInput, ScrollView, View, ActivityIndicator, RefreshControl, Platform } from "react-native";
+import { Text, StyleSheet, TextInput, ScrollView, View, ActivityIndicator, RefreshControl, Platform, TouchableOpacity } from "react-native";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import MainLayout from "../../layouts/MainLayout";
 import LibrarySection from "../../components/library/LibrarySection";
@@ -62,16 +62,21 @@ export default function LibraryScreen() {
       </View>
 
       <View style={styles.searchBarWrapper}>
-        <View style={styles.searchBar}>
-          <SearchIcon size={20} color="#7E8341" />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="책 제목, 저자 검색"
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            placeholderTextColor="#999"
-          />
-        </View>
+        <TouchableOpacity 
+    activeOpacity={1} // 클릭 시 깜빡임 방지
+    style={styles.searchBar} 
+    onPress={() => navigation.navigate("SearchScreen")} // 👈 여기서 이동!
+  >
+    <SearchIcon size={20} color="#7E8341" />
+    <TextInput
+      style={styles.searchInput}
+      placeholder="책 제목, 저자 검색"
+      value={searchQuery}
+      editable={false} // 👈 중요: 직접 타이핑 방지 (누르면 바로 이동하게)
+      pointerEvents="none" // 👈 중요: 안드로이드에서 클릭 이벤트가 TextInput에 먹히는 것 방지
+      placeholderTextColor="#999"
+    />
+  </TouchableOpacity>
       </View>
 
       <ScrollView 
